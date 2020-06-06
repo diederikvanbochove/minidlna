@@ -4,13 +4,13 @@ Updated: 2015-03-01
 
 --- a/minidlna.c
 +++ b/minidlna.c
-@@ -892,11 +892,13 @@
+@@ -976,11 +976,13 @@
  
  	if (runtime_vars.port <= 0)
  	{
 -		printf("Usage:\n\t"
 -			"%s [-d] [-v] [-f config_file] [-p port]\n"
--			"\t\t[-i network_interface] [-u uid_to_run_as]\n"
+-			"\t\t[-i network_interface] [-u uid_to_run_as] [-g group_to_run_as]\n"
 +		DPRINTF(E_ERROR, L_GENERAL, "Usage:\n\t"
 +		        "%s [-d] [-v] [-f config_file]\n"
 +			"\t\t[-a listening_ip] [-i network_interface]\n"
