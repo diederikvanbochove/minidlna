@@ -59,7 +59,7 @@ minidlnad_LDADD = \
 	@LIBEXIF_LIBS@ \
 	@LIBINTL@ \
 	@LIBICONV@ \
-	-lFLAC $(flacogglibs) $(vorbislibs) $(avahilibs) @LIBFFMPEGTHUMBNAILER_LIBS@
+	-lFLAC $(flacogglibs) $(vorbislibs) $(avahilibs)
 
 minidlnad_LDFLAGS = @STATIC_LDFLAGS@
 
