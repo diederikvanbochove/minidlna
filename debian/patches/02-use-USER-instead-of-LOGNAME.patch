@@ -1,0 +1,22 @@
+Author: Benoît Knecht <benoit.knecht@fsfe.org>
+Description: Use $USER instead of $LOGNAME in the default friendly_name
+ Using $USER in the friendly name will display which user minidlna is
+ running as on the clients, which can be helpful for detecting problems.
+ Using $LOGNAME on the other hand will display "root" as the username if
+ minidlna was started using the init script, regardless of which user
+ minidlna is currently running as.
+Updated: 2015-03-01
+
+Index: minidlna-1.2.1+dfsg/minidlna.c
+===================================================================
+--- minidlna-1.2.1+dfsg.orig/minidlna.c
++++ minidlna-1.2.1+dfsg/minidlna.c
+@@ -287,7 +287,7 @@ getfriendlyname(char *buf, int len)
+ 	fclose(info);
+ #else
+ 	char * logname;
+-	logname = getenv("LOGNAME");
++	logname = getenv("USER");
+ #ifndef STATIC // Disable for static linking
+ 	if (!logname)
+ 	{

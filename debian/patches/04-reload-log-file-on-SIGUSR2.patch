@@ -1,0 +1,36 @@
+Author: Benoît Knecht <benoit.knecht@fsfe.org>
+	Alexander Gerasiov <gq@debian.org>
+Description: Reload log file upon receiving SIGUSR2
+ This will allow for logrotate to tell minidlna that it needs to reopen
+ its log file.
+Updated: 2015-03-01
+ 
+Index: minidlna-1.2.1+dfsg/minidlna.c
+===================================================================
+--- minidlna-1.2.1+dfsg.orig/minidlna.c
++++ minidlna-1.2.1+dfsg/minidlna.c
+@@ -212,6 +212,15 @@ sigusr1(int sig)
+ }
+ 
+ static void
++sigusr2(int sig)
++{
++	signal(sig, sigusr2);
++	DPRINTF(E_WARN, L_GENERAL, "received signal %d, reload log\n", sig);
++
++	log_reopen();
++}
++
++static void
+ sighup(int sig)
+ {
+ 	signal(sig, sighup);
+@@ -1053,6 +1062,8 @@ init(int argc, char **argv)
+ 	sa.sa_handler = process_handle_child_termination;
+ 	if (sigaction(SIGCHLD, &sa, NULL))
+ 		DPRINTF(E_FATAL, L_GENERAL, "Failed to set %s handler. EXITING.\n", "SIGCHLD");
++	if (signal(SIGUSR2, &sigusr2) == SIG_ERR)
++		DPRINTF(E_FATAL, L_GENERAL, "Failed to set %s handler. EXITING.\n", "SIGUSR2");
+ 
+ 	if (writepidfile(pidfilename, pid, uid) != 0)
+ 		pidfilename = NULL;
